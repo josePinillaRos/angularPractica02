@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import 'animate.css';
+import { OpenweatherService } from '../../services/openweather.service';
 
 
 @Component({
@@ -13,7 +14,8 @@ import 'animate.css';
   ]
 })
 
-export class AdminPageComponent {
+export class AdminPageComponent implements OnInit {
+
   proyectos = [
     { 
       titulo: 'París', 
@@ -31,7 +33,7 @@ export class AdminPageComponent {
       imagen: 'https://media.istockphoto.com/id/1131743616/es/foto/vista-a%C3%A9rea-del-paisaje-urbano-de-tokio-con-la-monta%C3%B1a-fuji-en-jap%C3%B3n.jpg?s=612x612&w=0&k=20&c=xrmq2s8gXtvz8cjnmmH32auDH6TaMTyAwwS0zXGwV0A=' 
     },
     { 
-      titulo: 'Sídney', 
+      titulo: 'Sidney', 
       texto: 'Hogar de la icónica Ópera y hermosas playas.', 
       imagen: 'https://media.istockphoto.com/id/504539120/es/foto/sydney-frente-al-mar-en-la-noche.jpg?s=612x612&w=0&k=20&c=v_82_gyvEN8CsKl5qivg92zj39jFYjflS_hwoH6YsQE=' 
     },
@@ -46,7 +48,7 @@ export class AdminPageComponent {
       imagen: 'https://media.istockphoto.com/id/1326099058/es/foto/vista-de-la-ciudad-del-vaticano.jpg?s=612x612&w=0&k=20&c=BtCE09v13ipLbJTSmrSI1h7h8q0Km0xOzi-9pEYDV8U=' 
     },
     { 
-      titulo: 'Río de Janeiro', 
+      titulo: 'Rio de Janeiro', 
       texto: 'Famosa por el Cristo Redentor y sus carnavales vibrantes.', 
       imagen: 'https://media.istockphoto.com/id/534215078/es/foto/a%C3%A9rea-delaware-r%C3%ADo-de-janeiro.jpg?s=612x612&w=0&k=20&c=LwbUBihOCyc7WMbBjtI-OKKmLPy2U9H2LrLRTuCM9ZE=' 
     },
@@ -66,5 +68,21 @@ export class AdminPageComponent {
       imagen: 'https://media.istockphoto.com/id/682284814/es/foto/vista-a%C3%A9rea-de-ciudad-del-cabo.jpg?s=612x612&w=0&k=20&c=PuxHOLz2_uT6Z36r1ZL8fbL-r-a--GSZ0kJusgLdonI=' 
     }
   ];
+
+  weatherData: { [key: string]: any } = {}; 
+  constructor(private openweatherService: OpenweatherService) { }
+
+  ngOnInit() {
+    this.proyectos.forEach(proyecto => {
+    this.getWeather(proyecto.titulo);
+  });
+}
+  getWeather(nombreCiudad: string) {
+    this.openweatherService.getWeatherByCity(nombreCiudad).subscribe(data => {
+      this.weatherData[nombreCiudad] = data;
+      //console.log(this.weatherData);
+      //console.log(this.weatherData.main.temp);
+    });
+  }
 }
   

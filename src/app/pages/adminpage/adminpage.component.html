@@ -1,4 +1,4 @@
-<h3>Proyectos:</h3>
+<h1>Practica 2: Open Weather:</h1>
 <div class="container">
   <div class="row">
     <div *ngFor="let proyecto of proyectos" class="col-md-4 mb-4">
@@ -6,11 +6,16 @@
         <img [src]="proyecto.imagen" class="card-img-top" alt="Imagen de {{ proyecto.titulo }}">
         <div class="card-body d-flex flex-column">
           <h5 class="card-title">{{ proyecto.titulo }}</h5>
-          <p class="card-text">{{ proyecto.texto }}</p>
+          
+          <p class="card-text">
+            {{ proyecto.texto }}  
+            <span *ngIf="weatherData[proyecto.titulo]?.main?.temp">
+              <br><b> Temperatura: {{ weatherData[proyecto.titulo].main.temp }}°C</b>
+            </span>
+          </p>
           <a href="#" class="btn btn-primary mt-auto">Volver al login</a>
         </div>
       </div>
     </div>
   </div>
 </div>
-
